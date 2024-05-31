@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
-import 'package:school_app/features/auth/login.dart';
+// import 'package:school_app/features/auth/login.dart';
 import 'package:school_app/widgets/widgets.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -63,6 +63,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
     super.dispose();
   }
 
+  void registerUser() async {
+    if (_registerFormKey.currentState!.validate()) {
+      // Navigator.of(context).pushAndRemoveUntil(
+      //     MaterialPageRoute(builder: (context) => const LoginPage()),
+      //     (Route<dynamic> route) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var ht = MediaQuery.of(context).size.height;
@@ -73,7 +81,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
           // width: double.infinity,
           // height: double.infinity,
           child: Padding(
-            padding: EdgeInsets.only(right: 15, top: ht * 0.07),
+            padding:
+                EdgeInsets.only(right: 15, top: ht * 0.07, bottom: ht * 0.015),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -324,59 +333,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                                   '${_selectedNationality.flagEmoji}',
                                                   style: GoogleFonts.openSans(
                                                       fontSize: 23),
-
-                                                  // child: InputDecorator(
-                                                  //   decoration: InputDecoration(
-                                                  //     prefixIcon: Padding(
-                                                  //       padding:
-                                                  //           EdgeInsets.only(
-                                                  //               top: 7,
-                                                  //               left: 10,
-                                                  //               right: 10),
-                                                  //       child:
-                                                  //           _selectedNationality !=
-                                                  //                   null
-                                                  //               ? Image.asset(
-                                                  //                   _selectedNationality!
-                                                  //                       .flagUri,
-                                                  //                   package:
-                                                  //                       'country_picker',
-                                                  //                   width: 24,
-                                                  //                   height: 24,
-                                                  //                 )
-                                                  //               : FaIcon(
-                                                  //                   FontAwesomeIcons
-                                                  //                       .flag,
-                                                  //                   color: Colors
-                                                  //                       .grey
-                                                  //                       .shade500,
-                                                  //                   size: 23,
-                                                  //                 ),
-                                                  //     ),
-                                                  //     contentPadding:
-                                                  //         EdgeInsets.fromLTRB(
-                                                  //             0, 3, 5, 5),
-                                                  //     border: InputBorder.none,
-                                                  //   ),
-                                                  //   // child: Text(
-                                                  //   //   _selectedNationality !=
-                                                  //   //           null
-                                                  //   //       ? _selectedNationality!
-                                                  //   //           .name
-                                                  //   //       : 'Select Nationality',
-                                                  //   //   style:
-                                                  //   //       GoogleFonts.openSans(
-                                                  //   //     color:
-                                                  //   //         _selectedNationality !=
-                                                  //   //                 null
-                                                  //   //             ? Colors.black
-                                                  //   //             : Colors.grey
-                                                  //   //                 .shade500,
-                                                  //   //     fontWeight:
-                                                  //   //         FontWeight.w200,
-                                                  //   //   ),
-                                                  //   // ),
-                                                  // ),
                                                 ),
                                                 Icon(
                                                   Icons.arrow_drop_down,
@@ -626,6 +582,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       setState(() {
                                         _isButtonPressed = true;
                                       });
+                                      registerUser();
                                     },
                                     leftPadding: wd * 0.31,
                                     rightPadding: wd * 0.31,
@@ -663,17 +620,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             color: Colors.grey.shade500,
                           )),
                       TextSpan(
-                          text: ' Sign in',
+                          text: ' Sign In',
                           style: GoogleFonts.openSans(
                               fontSize: 17,
                               fontWeight: FontWeight.w600,
                               color: buttonColor),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) => LoginPage())));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: ((context) => LoginPage())));
                             })
                     ])),
                   ),

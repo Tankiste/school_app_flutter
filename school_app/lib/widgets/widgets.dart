@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
 
 class ReturnButton extends StatelessWidget {
@@ -16,7 +15,7 @@ class ReturnButton extends StatelessWidget {
           padding: EdgeInsets.zero,
         ),
         onPressed: () {
-          Navigator.maybePop(context);
+          Navigator.pop(context);
         },
         child: Icon(
           Icons.arrow_back_ios_new_rounded,
