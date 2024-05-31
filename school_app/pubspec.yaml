@@ -41,6 +41,8 @@ dependencies:
   firebase_database: ^10.4.0
   animations: ^2.0.8
   google_fonts: 6.1.0
+  font_awesome_flutter: ^10.7.0
+  country_picker: ^2.0.23
 
 dev_dependencies:
   flutter_test:

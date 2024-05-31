@@ -63,7 +63,7 @@ class _OnBoardState extends State<OnBoard> {
       body: Column(
         children: [
           Expanded(
-              flex: 12,
+              flex: 15,
               child: PageView(
                 controller: _pageController,
                 onPageChanged: _onPageChanged,
@@ -86,7 +86,6 @@ class _OnBoardState extends State<OnBoard> {
                 ],
               )),
           Expanded(
-            flex: 1,
             child: Container(
               height: ht * 0.02,
               child: Row(
@@ -95,17 +94,41 @@ class _OnBoardState extends State<OnBoard> {
               ),
             ),
           ),
-          SizedBox(
-            height: ht * 0.1,
-          ),
+          // SizedBox(
+          //   height: ht * 0.004,
+          // ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: wd * 0.1),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                onPressed: _nextPage,
-                child: Text('Next'),
-              ),
+            padding:
+                EdgeInsets.symmetric(horizontal: wd * 0.1, vertical: ht * 0.02),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: _nextPage,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: buttonColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Next',
+                        style: GoogleFonts.openSans(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      // SizedBox(
+                      //   width: wd * 0.001,
+                      // ),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
           )
         ],
@@ -140,24 +163,24 @@ class OnboardingPage extends StatelessWidget {
         Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: ht * 0.03),
+              padding: EdgeInsets.symmetric(horizontal: ht * 0.04),
               child: Text(
                 firstText,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.openSans(
-                    fontSize: 22, fontWeight: FontWeight.bold),
+                    fontSize: 24, fontWeight: FontWeight.w900),
               ),
             ),
             SizedBox(
               height: ht * 0.01,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: ht * 0.045),
+              padding: EdgeInsets.symmetric(horizontal: ht * 0.05),
               child: Text(
                 secondText,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.openSans(
-                    fontSize: 13, fontWeight: FontWeight.w300),
+                    fontSize: 14, fontWeight: FontWeight.w300),
               ),
             ),
           ],
