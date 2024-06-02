@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
-import 'package:school_app/features/auth/registration.dart';
+import 'package:school_app/features/auth/views/registration.dart';
 
 class OnBoard extends StatefulWidget {
   const OnBoard({super.key});
