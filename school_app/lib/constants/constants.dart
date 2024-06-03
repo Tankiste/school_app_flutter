@@ -6,4 +6,4 @@ const returnColor = Color(0xFFB2FFE5);
 const buttonColor = Color(0xFF137C8B);
 const messageColor = Color(0xFF2CCED2);
 
-const OPENWEATHER_API_KEY = "58984ee9f16e34afc70f6dfc42eb024b";
+const OPENWEATHER_API_KEY = "ec09a8e4b0b9fc13367c29aff5b85575";

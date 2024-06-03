@@ -124,6 +124,7 @@ class _InboxPageState extends State<InboxPage> {
     var ht = MediaQuery.of(context).size.height;
     var wd = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         height: double.infinity,
         width: double.infinity,

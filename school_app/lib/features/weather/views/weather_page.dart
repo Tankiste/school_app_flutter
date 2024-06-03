@@ -32,6 +32,7 @@ class _WeatherPageState extends State<WeatherPage> {
     var ht = MediaQuery.of(context).size.height;
     var wd = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       body:
           // _weather == null
           //     ? Center(

@@ -131,6 +131,7 @@ class _LandingPageState extends State<LandingPage> {
     var wd = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Container(

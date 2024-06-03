@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/features/chats/views/inbox_page.dart';
 import 'package:school_app/features/home/views/landing_page.dart';
-import 'package:school_app/features/profile/profile.dart';
+import 'package:school_app/features/profile/views/profile.dart';
 import 'package:school_app/state/app_state.dart';
 import 'package:school_app/widgets/widgets.dart';
 
@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     var ht = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           IndexedStack(

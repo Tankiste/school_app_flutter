@@ -77,6 +77,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     var ht = MediaQuery.of(context).size.height;
     var wd = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           // width: double.infinity,

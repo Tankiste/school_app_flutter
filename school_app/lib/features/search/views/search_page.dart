@@ -82,6 +82,7 @@ class _SearchPageState extends State<SearchPage>
     var ht = MediaQuery.of(context).size.height;
     var wd = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(right: 20, top: 60),

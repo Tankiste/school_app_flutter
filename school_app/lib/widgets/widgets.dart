@@ -135,6 +135,15 @@ class SearchBarItem extends StatelessWidget {
   }
 }
 
+class Message {
+  final String text;
+  final DateTime date;
+  final bool isSentByMe;
+
+  const Message(
+      {required this.text, required this.date, required this.isSentByMe});
+}
+
 class FloatingBar extends StatefulWidget {
   const FloatingBar({super.key});
 

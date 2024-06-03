@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_app/features/comments/views/comment_screen.dart';
 
 class PostListView extends StatefulWidget {
   const PostListView({super.key});
@@ -222,12 +224,15 @@ class _PostListViewState extends State<PostListView> {
             height: 5,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => CommentScreen()));
+            },
             child: Text('View all comments',
                 style: GoogleFonts.openSans(
                   fontSize: 13,
-                  color: Colors.grey.shade400,
-                  fontWeight: FontWeight.w400,
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.w600,
                 )),
           ),
           SizedBox(

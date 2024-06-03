@@ -96,6 +96,7 @@ class _ResultStudentSearchState extends State<ResultStudentSearch>
     var ht = MediaQuery.of(context).size.height;
     var wd = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
           width: double.infinity,
           height: double.infinity,

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:school_app/features/comments/views/comment_screen.dart';
 import 'package:school_app/widgets/widgets.dart';
 
 class ResultPostSearch extends StatefulWidget {
@@ -24,6 +26,7 @@ class _ResultPostSearchState extends State<ResultPostSearch> {
     var wd = MediaQuery.of(context).size.width;
     var ht = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -191,12 +194,17 @@ class _ResultPostSearchState extends State<ResultPostSearch> {
                     height: 10,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => CommentScreen()));
+                    },
                     child: Text('View all comments',
                         style: GoogleFonts.openSans(
                           fontSize: 13,
-                          color: Colors.grey.shade400,
-                          fontWeight: FontWeight.w400,
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.w600,
                         )),
                   ),
                   SizedBox(
