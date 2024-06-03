@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/search/controller/search_post_listview.dart';
 // import 'package:school_app/features/search/views/result_post_search.dart';
 
-class SearchPostListView extends StatefulWidget {
-  const SearchPostListView({super.key});
+class StudentPosts extends StatefulWidget {
+  const StudentPosts({super.key});
 
   @override
-  State<SearchPostListView> createState() => _SearchPostListViewState();
+  State<StudentPosts> createState() => _StudentPostsState();
 }
 
-class _SearchPostListViewState extends State<SearchPostListView> {
+class _StudentPostsState extends State<StudentPosts> {
   bool isLiked = false;
 
   void likePost() {
@@ -177,43 +177,16 @@ class _SearchPostListViewState extends State<SearchPostListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 20,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Recently Liked Posts',
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-              ),
-              TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: buttonColor),
-                  ))
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: ListView.builder(
-            itemCount: 2,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return serviceWidget();
-            },
-          ),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 20),
+      child: ListView.builder(
+        itemCount: 3,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return serviceWidget();
+        },
+      ),
     );
   }
 }

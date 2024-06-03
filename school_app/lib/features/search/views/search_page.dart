@@ -91,7 +91,9 @@ class _SearchPageState extends State<SearchPage>
               Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: SizedBox(
-                    height: ht * 0.045, width: wd * 0.1, child: ReturnButton()),
+                    height: ht * 0.045,
+                    width: wd * 0.09,
+                    child: ReturnButton()),
               ),
               SizedBox(
                 height: ht * 0.05,

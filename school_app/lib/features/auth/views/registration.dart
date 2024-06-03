@@ -91,7 +91,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   padding: const EdgeInsets.only(left: 15),
                   child: SizedBox(
                       height: ht * 0.045,
-                      width: wd * 0.1,
+                      width: wd * 0.09,
                       child: ReturnButton()),
                 ),
                 SizedBox(height: ht * 0.07),

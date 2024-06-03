@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/search/views/result_student_search.dart';
 
 class SearchStudentListView extends StatefulWidget {
   const SearchStudentListView({super.key});
@@ -13,11 +14,13 @@ class SearchStudentListView extends StatefulWidget {
 class _SearchStudentListViewState extends State<SearchStudentListView> {
   Widget serviceWidget() {
     var ht = MediaQuery.of(context).size.height;
-    var wd = MediaQuery.of(context).size.width;
     return Column(
       children: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ResultStudentSearch()));
+          },
           child: Row(
             children: [
               Container(
@@ -40,7 +43,7 @@ class _SearchStudentListViewState extends State<SearchStudentListView> {
                         fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    'X2025',
+                    'X4',
                     style: GoogleFonts.openSans(
                         fontSize: 13,
                         color: Colors.grey.shade500,
