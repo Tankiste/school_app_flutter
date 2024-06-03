@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/features/home/controller/posts_listview.dart';
+import 'package:school_app/features/notifications/views/notifications.dart';
 import 'package:school_app/features/weather/views/weather_page.dart';
 import 'package:school_app/widgets/widgets.dart';
 
@@ -164,7 +166,11 @@ class _LandingPageState extends State<LandingPage> {
                                   padding: EdgeInsets.zero,
                                 ),
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: ((context) =>
+                                              NotificationScreen())));
                                 },
                                 child: Icon(
                                   FontAwesomeIcons.solidBell,
