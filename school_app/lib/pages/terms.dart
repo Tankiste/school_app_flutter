@@ -1,25 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const Terms());
-}
-
-class Terms extends StatelessWidget {
-  const Terms({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
-      ),
-      home: Scaffold(
-        body: const TermsAndConditions(),
-      ),
-    );
-  }
-}
-
 class TermsAndConditions extends StatelessWidget {
   const TermsAndConditions({super.key});
 

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/features/auth/views/registration.dart';
 import 'package:school_app/features/home/views/landing_page.dart';
+import 'package:school_app/pages/home_page.dart';
 import 'package:school_app/widgets/widgets.dart';
 
 class LoginPage extends StatefulWidget {
@@ -223,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
                                       Navigator.of(context).pushAndRemoveUntil(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const LandingPage()),
+                                                  const HomePage()),
                                           (Route<dynamic> route) => false);
                                     },
                                     leftPadding: wd * 0.33,

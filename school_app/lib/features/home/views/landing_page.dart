@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/features/home/controller/posts_listview.dart';
+import 'package:school_app/features/weather/views/weather_page.dart';
 import 'package:school_app/widgets/widgets.dart';
 
 class LandingPage extends StatefulWidget {
@@ -139,7 +140,7 @@ class _LandingPageState extends State<LandingPage> {
               child: Container(
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: 20, top: ht * 0.07, right: 20, bottom: ht * 0.04),
+                      left: 20, top: ht * 0.07, right: 20, bottom: ht * 0.07),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -301,7 +302,12 @@ class _LandingPageState extends State<LandingPage> {
                         height: ht * 0.02,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WeatherPage()));
+                        },
                         child: Card(
                           color: Colors.white,
                           elevation: 5,
@@ -440,7 +446,7 @@ class _LandingPageState extends State<LandingPage> {
             ),
           ),
           Positioned(
-              bottom: 20,
+              bottom: 90,
               right: 20,
               child: FloatingActionButton(
                 onPressed: () {
@@ -462,7 +468,13 @@ class _LandingPageState extends State<LandingPage> {
                   size: 32,
                 ),
                 shape: CircleBorder(),
-              ))
+              )),
+          // Positioned(
+          //   bottom: 10,
+          //   left: 15,
+          //   right: 15,
+          //   child: FloatingBar(),
+          // )
         ],
       ),
     );

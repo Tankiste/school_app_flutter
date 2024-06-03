@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/features/search/views/search_page.dart';
+import 'package:school_app/pages/home_page.dart';
+import 'package:school_app/state/app_state.dart';
 
 class ReturnButton extends StatelessWidget {
   const ReturnButton({super.key});
@@ -127,5 +132,95 @@ class SearchBarItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class FloatingBar extends StatefulWidget {
+  const FloatingBar({super.key});
+
+  @override
+  State<FloatingBar> createState() => _FloatingBarState();
+}
+
+class _FloatingBarState extends State<FloatingBar> {
+  @override
+  Widget build(BuildContext context) {
+    var ht = MediaQuery.of(context).size.height;
+    return Consumer<ApplicationState>(builder: (context, appState, _) {
+      return Container(
+        height: ht * 0.097,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade400,
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: GNav(
+                color: buttonColor,
+                selectedIndex: appState.currentIndex,
+                activeColor: buttonColor,
+                tabBackgroundColor: onboardColor,
+                backgroundColor: Colors.white,
+                gap: 10,
+                textStyle: GoogleFonts.openSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: buttonColor),
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                tabBorderRadius: 15,
+                // padding: EdgeInsets.all(10),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                onTabChange: (index) {
+                  appState.currentIndex = index;
+                  switch (appState.currentIndex) {
+                    case 0:
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                      break;
+                    case 1:
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                      break;
+                    case 2:
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                      break;
+                    default:
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                      break;
+                  }
+                },
+                tabs: [
+                  GButton(
+                    icon: Icons.home,
+                    text: 'Home',
+                  ),
+                  GButton(
+                    icon: FontAwesomeIcons.solidMessage,
+                    text: 'Chat',
+                  ),
+                  GButton(
+                    icon: Icons.person,
+                    text: 'Profile',
+                  )
+                ])),
+      );
+    });
   }
 }
