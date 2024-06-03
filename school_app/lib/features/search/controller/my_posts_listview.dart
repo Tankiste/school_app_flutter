@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:school_app/features/search/views/result_post_search.dart';
+import 'package:school_app/features/search/views/result_post_search.dart';
 
 class StudentPostListView extends StatefulWidget {
   const StudentPostListView({super.key});
@@ -33,10 +33,10 @@ class _StudentPostListViewState extends State<StudentPostListView> {
               children: [
                 InkWell(
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: ((context) => ResultPostSearch())));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => ResultPostSearch())));
                   },
                   child: Container(
                     height: ht * 0.28,

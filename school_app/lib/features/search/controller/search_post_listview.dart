@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
-// import 'package:school_app/features/search/views/result_post_search.dart';
+import 'package:school_app/features/search/views/result_post_search.dart';
 
 class SearchPostListView extends StatefulWidget {
   const SearchPostListView({super.key});
@@ -32,10 +32,10 @@ class _SearchPostListViewState extends State<SearchPostListView> {
               children: [
                 InkWell(
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: ((context) => ResultPostSearch())));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => ResultPostSearch())));
                   },
                   child: Container(
                     height: ht * 0.28,
