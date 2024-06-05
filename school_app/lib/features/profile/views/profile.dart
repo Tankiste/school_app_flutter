@@ -6,6 +6,7 @@ import 'package:school_app/constants/constants.dart';
 import 'package:school_app/features/likes/views/favorite.dart';
 import 'package:school_app/features/notifications/views/notifications.dart';
 import 'package:school_app/features/profile/views/user_account.dart';
+import 'package:school_app/pages/about_app.dart';
 import 'package:school_app/pages/user_settings.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -105,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                             builder: ((context) => FavoriteScreen())));
                   },
                   child: Row(
@@ -144,8 +145,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: ((context) => UserAccount())));
+                        CupertinoPageRoute(
+                            builder: ((context) => UserAccount(
+                                  initialSelectedOption: 'Posts',
+                                  initialPreviousOption: 'Posts',
+                                ))));
                   },
                   child: Row(
                     children: [
@@ -183,8 +187,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: ((context) => FavoriteScreen())));
+                        CupertinoPageRoute(
+                            builder: ((context) => UserAccount(
+                                  initialSelectedOption: 'About',
+                                  initialPreviousOption: 'About',
+                                ))));
                   },
                   child: Row(
                     children: [
@@ -222,8 +229,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: ((context) => FavoriteScreen())));
+                        CupertinoPageRoute(
+                            builder: ((context) => UserSettings())));
                   },
                   child: Row(
                     children: [
@@ -259,10 +266,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => FavoriteScreen())));
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: ((context) => AboutApp())));
                   },
                   child: Row(
                     children: [
@@ -297,12 +302,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 30,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => FavoriteScreen())));
-                  },
+                  onTap: () {},
                   child: Row(
                     children: [
                       Container(

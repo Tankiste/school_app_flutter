@@ -1,202 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:school_app/widgets/widgets.dart';
 
-void main() {
-  runApp(const Policy());
-}
-
-class Policy extends StatelessWidget {
-  const Policy({super.key});
+class PrivacyPolicy extends StatefulWidget {
+  const PrivacyPolicy({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
-      ),
-      home: const Scaffold(
-        body: TermsAndConditions(),
-      ),
-    );
-  }
+  State<PrivacyPolicy> createState() => _PrivacyPolicyState();
 }
 
-class TermsAndConditions extends StatelessWidget {
-  const TermsAndConditions({super.key});
-
+class _PrivacyPolicyState extends State<PrivacyPolicy> {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double width = constraints.maxWidth;
-        double height = constraints.maxHeight;
-        double padding = width * 0.05; // 5% padding
-
-        return SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: padding),
-          child: Column(
-            children: [
-              Container(
-                width: width,
-                height: height,
-                decoration: const BoxDecoration(color: Colors.white),
-                child: Stack(
+    var ht = MediaQuery.of(context).size.height;
+    var wd = MediaQuery.of(context).size.width;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.only(left: 25, top: ht * 0.07, right: 25),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Positioned(
-                      left: padding,
-                      top: height * 0.9, // 90% from top
-                      child: SizedBox(
-                        width: width * 0.9, // 90% of width
-                        height: height * 0.07, // 7% of height
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Container(
-                                width: width * 0.9, // 90% of width
-                                height: height * 0.07, // 7% of height
-                                decoration: ShapeDecoration(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                        width: 1, color: Color(0xFFF0F0F0)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: width * 0.65,
-                              top: height * 0.015,
-                              child: SizedBox(
-                                width: width * 0.25, // 25% of width
-                                height: height * 0.04, // 4% of height
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 0,
-                                      top: 0,
-                                      child: Container(
-                                        width: width * 0.25, // 25% of width
-                                        height: height * 0.04, // 4% of height
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0xFFDEFFFB),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const Positioned(
-                                      left: 34,
-                                      top: 4,
-                                      child: Text(
-                                        'Profile',
-                                        style: TextStyle(
-                                          color: Color(0xFF137C8B),
-                                          fontSize: 16,
-                                          fontFamily: 'Lexend',
-                                          fontWeight: FontWeight.w600,
-                                          height: 0,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: width * 0.08,
-                              top: height * 0.015,
-                              child: Container(
-                                width: width * 0.1, // 10% of width
-                                height: height * 0.04, // 4% of height
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFFDEFFFB),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: width * 0.33,
-                              top: height * 0.015,
-                              child: Container(
-                                width: width * 0.1, // 10% of width
-                                height: height * 0.04, // 4% of height
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFFDEFFFB),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    SizedBox(
+                        height: ht * 0.045,
+                        width: wd * 0.09,
+                        child: ReturnButton()),
+                    SizedBox(
+                      height: ht * 0.06,
                     ),
-                    const Positioned(
-                      left: 23,
-                      top: 106,
-                      child: SizedBox(
-                        width: 227,
-                        height: 22,
-                        child: Text(
-                          'Privacy Policy',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontFamily: 'Open Sans',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
-                      ),
+                    Text(
+                      'Privacy Policy',
+                      style: GoogleFonts.openSans(
+                          fontSize: 25, fontWeight: FontWeight.bold),
                     ),
-                    Positioned(
-                      left: 335,
-                      top: 581,
-                      child: Transform(
-                        transform: Matrix4.identity()
-                          ..translate(0.0, 0.0)
-                          ..rotateZ(-3.12),
-                        child: Container(
-                          width: 6.11,
-                          height: 11,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: const BoxDecoration(),
-                        ),
-                      ),
+                    SizedBox(
+                      height: ht * 0.03,
                     ),
-                    Positioned(
-                      left: 23,
-                      top: 164,
-                      child: SizedBox(
-                        width: width * 0.9,
-                        height: height * 0.6,
-                        child: const Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce hendrerit consectetur dolor, quis maximus ipsum suscipit et. Suspendisse quis elit massa. Pellentesque eget aliquet est. Aenean pretium, risus quis ornare ultrices, tellus nulla dictum ex, non rutrum nulla arcu eget est. Proin convallis non nunc et feugiat. Donec ac iaculis turpis, quis pharetra elit. Duis cursus, massa id mattis tempor, urna augue dictum risus, fringilla sagittis ipsum lectus sed libero. Pellentesque placerat sed tellus et placerat. Nam eu eros sodales, egestas turpis vel, commodo mauris. Donec cursus tempor consectetur. Donec venenatis est in mi porta pellentesque. Aliquam volutpat id quam ac tempus. Quisque in mauris eros.\n\nVestibulum metus metus, iaculis a dictum vestibulum, porttitor id turpis. Vestibulum neque ipsum, euismod aliquam tellus eget, ornare fermentum lorem. Sed maximus mi et tortor viverra luctus. Aliquam ullamcorper pellentesque dui id maximus. Nunc sapien diam, tincidunt non mi sit amet, ullamcorper euismod neque. Vivamus commodo elit ac porttitor laoreet. Integer fermentum justo est, vitae venenatis leo sodales id. Nulla facilisi. Duis faucibus maximus est, id lobortis diam molestie condimentum. Vestibulum congue turpis eu vestibulum convallis. Pellentesque molestie nibh a sem sollicitudin, id rutrum nulla commodo. Aenean gravida erat turpis, quis ultricies dolor bibendum eget. ',
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            color: Color(0xFF909090),
-                            fontSize: 12,
-                            fontFamily: 'Open Sans',
-                            fontWeight: FontWeight.w400,
-                            height: 0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                    Text(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce hendrerit consectetur dolor, quis maximus ipsum suscipit et. Suspendisse quis elit massa. Pellentesque eget aliquet est. Aenean pretium, risus quis ornare ultrices, tellus nulla dictum ex, non rutrum nulla arcu eget est. Proin convallis non nunc et feugiat. Donec ac iaculis turpis, quis pharetra elit. Duis cursus, massa id mattis tempor, urna augue dictum risus, fringilla sagittis ipsum lectus sed libero. Pellentesque placerat sed tellus et placerat. Nam eu eros sodales, egestas turpis vel, commodo mauris. Donec cursus tempor consectetur. Donec venenatis est in mi porta pellentesque. Aliquam volutpat id quam ac tempus. Quisque in mauris eros.\n\nVestibulum metus metus, iaculis a dictum vestibulum, porttitor id turpis. Vestibulum neque ipsum, euismod aliquam tellus eget, ornare fermentum lorem. Sed maximus mi et tortor viverra luctus. Aliquam ullamcorper pellentesque dui id maximus. Nunc sapien diam, tincidunt non mi sit amet, ullamcorper euismod neque. Vivamus commodo elit ac porttitor laoreet.',
+                      style: GoogleFonts.openSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey.shade500),
+                    )
+                  ]),
+            ),
           ),
-        );
-      },
+          Positioned(bottom: 10, left: 15, right: 15, child: FloatingBar())
+        ],
+      ),
     );
   }
 }

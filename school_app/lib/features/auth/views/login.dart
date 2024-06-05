@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/auth/views/forgot_password.dart';
 import 'package:school_app/features/auth/views/registration.dart';
 import 'package:school_app/features/home/views/landing_page.dart';
 import 'package:school_app/pages/home_page.dart';
@@ -200,11 +201,11 @@ class _LoginPageState extends State<LoginPage> {
                                   alignment: Alignment.centerRight,
                                   child: GestureDetector(
                                     onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //              ForgotPasswordPage()));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ForgotPassword()));
                                     },
                                     child: Text(
                                       'Forgot Password?',
