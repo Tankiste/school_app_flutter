@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   signoutUser() async {
     ApplicationState appState = Provider.of(context, listen: false);
-    // appState.currentIndex = 0;
+    appState.currentIndex = 0;
     await appState.logoutUser(context);
     await _studService.logout();
     Navigator.of(context).pushAndRemoveUntil(

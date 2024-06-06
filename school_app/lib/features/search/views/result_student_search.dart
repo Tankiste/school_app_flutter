@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/features/search/controller/about_student.dart';
 import 'package:school_app/features/search/controller/student_comments.dart';
-import 'package:school_app/features/search/controller/student_posts.dart';
+import 'package:school_app/features/posts/views/student_posts.dart';
 import 'package:school_app/widgets/widgets.dart';
 
 class ResultStudentSearch extends StatefulWidget {

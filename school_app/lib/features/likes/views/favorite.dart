@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:school_app/features/search/controller/student_posts.dart';
+import 'package:school_app/features/posts/views/student_posts.dart';
 import 'package:school_app/widgets/widgets.dart';
 
 class FavoriteScreen extends StatefulWidget {

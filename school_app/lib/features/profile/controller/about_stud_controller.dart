@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AboutStudent extends StatefulWidget {
-  const AboutStudent({super.key});
+class AboutStudentController extends StatefulWidget {
+  const AboutStudentController({super.key});
 
   @override
-  State<AboutStudent> createState() => _AboutStudentState();
+  State<AboutStudentController> createState() => AboutStudentControllerState();
 }
 
-class _AboutStudentState extends State<AboutStudent> {
+class AboutStudentControllerState extends State<AboutStudentController> {
+  TextEditingController _bioController = TextEditingController();
+
+  String get bio => _bioController.text;
+
   @override
   Widget build(BuildContext context) {
     var ht = MediaQuery.of(context).size.height;
@@ -42,10 +46,13 @@ class _AboutStudentState extends State<AboutStudent> {
                 const SizedBox(
                   height: 8,
                 ),
-                Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dolor non turpis euismod convallis. Pellentesque lacinia mattis aliquet. Phasellus vitae dolor in ipsumt. Aliquam et elit auctor, semper justo vel, sagittis massa',
+                TextField(
+                  maxLines: 5,
+                  keyboardType: TextInputType.multiline,
+                  controller: _bioController,
                   textAlign: TextAlign.justify,
-                  overflow: TextOverflow.clip,
+                  decoration: InputDecoration(
+                      hintText: 'Enter your bio...', border: InputBorder.none),
                   style: GoogleFonts.openSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,

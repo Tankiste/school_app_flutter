@@ -2,15 +2,13 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:school_app/features/auth/model/student.dart';
+import 'package:school_app/services/firebase_services.dart';
 
 class StudentService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-
-  String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+  final FirebaseServices _services = FirebaseServices();
 
   Future<String> registerStudent({
     required String name,
@@ -81,14 +79,6 @@ class StudentService {
     return StudentData.fromSnap(snap);
   }
 
-  Future<String> uploadImageToStorage(String fileName, File file) async {
-    Reference ref = _storage.ref().child(fileName).child(uniqueFileName);
-    UploadTask uploadTask = ref.putFile(file);
-    TaskSnapshot snapshot = await uploadTask;
-    String downloadUrl = await snapshot.ref.getDownloadURL();
-    return downloadUrl;
-  }
-
   Future<StudentData> getUserDetails() async {
     User currentUser = _auth.currentUser!;
     DocumentSnapshot snap =
@@ -111,9 +101,30 @@ class StudentService {
     String? currentLogo = studentSnapshot.get('Logolink');
     String? currentBio = studentSnapshot.get('Bio');
 
-    String? updatedLogo =
-        logo != null ? await uploadImageToStorage('Logo', logo) : currentLogo;
-    String? updatedBio = bio != null ? bio : currentBio;
+    String? updatedLogo = logo != null
+        ? await _services.uploadImageToStorage('Logo', logo)
+        : currentLogo;
+    String? updatedBio;
+    bool isBioChanged = false;
+    bool isLogoChanged = false;
+    if (bio != null) {
+      if (bio == "") {
+        updatedBio = currentBio;
+      } else if (bio != currentBio) {
+        updatedBio = bio;
+        isBioChanged = true;
+      } else if (bio == currentBio) {
+        updatedBio = bio;
+      }
+    } else {
+      updatedBio = currentBio;
+    }
+
+    if (logo != null) {
+      if (updatedLogo != currentLogo) {
+        isLogoChanged = true;
+      }
+    }
 
     Map<String, dynamic> updatedData = {
       'Bio': updatedBio,
@@ -121,12 +132,17 @@ class StudentService {
     };
 
     try {
-      await userDocRef.update(updatedData);
-      resp = 'success';
-      print('Fields successfully updated !');
+      if (isLogoChanged || isBioChanged) {
+        await userDocRef.update(updatedData);
+        resp = 'success';
+        print('Fields successfully updated!');
+      } else {
+        resp = 'no_change';
+        print('No changes to update');
+      }
     } catch (e) {
       resp = e.toString();
-      print('Error during update : $e');
+      print('Error during update: $e');
     }
 
     return resp;

@@ -3,14 +3,19 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/auth/model/student.dart';
 import 'package:school_app/features/home/controller/posts_listview.dart';
 import 'package:school_app/features/notifications/views/notifications.dart';
+import 'package:school_app/features/posts/services/posts_services.dart';
 import 'package:school_app/features/weather/views/weather_page.dart';
+import 'package:school_app/state/app_state.dart';
 import 'package:school_app/widgets/widgets.dart';
 import 'package:weather/weather.dart';
 
@@ -24,11 +29,14 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   File? image;
   String? fileName;
+  TextEditingController _postController = TextEditingController();
   final WeatherFactory _wf = WeatherFactory(OPENWEATHER_API_KEY);
   Weather? _weather;
+  bool isLoading = false;
 
   @override
   void initState() {
+    updateData();
     super.initState();
     _wf.currentWeatherByCityName("Douala").then((w) {
       setState(() {
@@ -37,26 +45,9 @@ class _LandingPageState extends State<LandingPage> {
     });
   }
 
-  Widget _weatherIcon() {
-    var ht = MediaQuery.of(context).size.height;
-
-    return Column(
-      children: [
-        Container(
-          height: ht * 0.30,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(
-                      "https://openweathermap.org/img/wn/${_weather?.weatherIcon}@4x.png"))),
-        ),
-        SizedBox(height: ht * 0.01),
-        Text(
-          _weather?.weatherDescription ?? "",
-          style:
-              GoogleFonts.openSans(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-      ],
-    );
+  updateData() async {
+    ApplicationState appState = Provider.of(context, listen: false);
+    await appState.refreshUser();
   }
 
   Widget _dateTimeInfo() {
@@ -196,6 +187,7 @@ class _LandingPageState extends State<LandingPage> {
                     color: Colors.grey.shade300,
                   )),
               child: TextFormField(
+                controller: _postController,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
@@ -215,18 +207,21 @@ class _LandingPageState extends State<LandingPage> {
           ),
           MainButton(
               onPressed: () {
-                Navigator.pop(context);
+                isLoading ? null : createPost();
               },
               leftPadding: wd * 0.35,
               rightPadding: wd * 0.35,
-              child: Text(
-                'Post',
-                style: GoogleFonts.openSans(
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                ),
-              )),
+              child: isLoading
+                  ? CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
+                  : Text(
+                      'Post',
+                      style: GoogleFonts.openSans(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )),
           SizedBox(
             height: ht * 0.04,
           )
@@ -235,10 +230,40 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
+  void createPost() async {
+    if (image != null && _postController.text.isNotEmpty) {
+      setState(() {
+        isLoading = true;
+      });
+      String resp = await PostService()
+          .createPost(description: _postController.text, image: image!);
+
+      if (resp == 'success') {
+        await Fluttertoast.showToast(
+            msg: 'Your post has been published !',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: messageColor,
+            fontSize: 16);
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Fill in an image and a description!'),
+        ));
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var ht = MediaQuery.of(context).size.height;
     var wd = MediaQuery.of(context).size.width;
+    StudentData? studentData = Provider.of<ApplicationState>(context).getUser;
+    String? name = studentData?.name;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -292,7 +317,7 @@ class _LandingPageState extends State<LandingPage> {
                         height: ht * 0.035,
                       ),
                       Text(
-                        'Hello, John !',
+                        'Hello, $name !',
                         style: GoogleFonts.lexend(
                             fontSize: 24, fontWeight: FontWeight.w600),
                       ),
