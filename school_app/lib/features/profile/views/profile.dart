@@ -2,12 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/auth/services/student_service.dart';
+import 'package:school_app/features/auth/views/login.dart';
 import 'package:school_app/features/likes/views/favorite.dart';
 import 'package:school_app/features/notifications/views/notifications.dart';
 import 'package:school_app/features/profile/views/user_account.dart';
 import 'package:school_app/pages/about_app.dart';
 import 'package:school_app/pages/user_settings.dart';
+import 'package:school_app/state/app_state.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -17,10 +21,21 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final StudentService _studService = StudentService();
+
+  signoutUser() async {
+    ApplicationState appState = Provider.of(context, listen: false);
+    // appState.currentIndex = 0;
+    await appState.logoutUser(context);
+    await _studService.logout();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (Route<dynamic> route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     var ht = MediaQuery.of(context).size.height;
-    var wd = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -302,7 +317,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 30,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: signoutUser,
                   child: Row(
                     children: [
                       Container(

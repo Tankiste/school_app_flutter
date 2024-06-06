@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/auth/services/student_service.dart';
 import 'package:school_app/features/auth/views/forgot_password.dart';
 import 'package:school_app/features/auth/views/registration.dart';
 import 'package:school_app/features/home/views/landing_page.dart';
@@ -36,6 +37,37 @@ class _LoginPageState extends State<LoginPage> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void loginStudent() async {
+    if (_loginFormKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      String res = await StudentService().loginStudent(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (res == 'success') {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const HomePage()),
+          (Route<dynamic> route) => false,
+        );
+      } else if (res != 'Please Enter All The Fields!') {
+        setState(() {
+          errorMessage = res;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Incorrect credentials!'),
+        ));
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -223,11 +255,7 @@ class _LoginPageState extends State<LoginPage> {
                                   padding: EdgeInsets.only(left: 5),
                                   child: MainButton(
                                     onPressed: () {
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const HomePage()),
-                                          (Route<dynamic> route) => false);
+                                      isLoading ? null : loginStudent();
                                     },
                                     leftPadding: wd * 0.33,
                                     rightPadding: wd * 0.33,

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/pages/home_page.dart';
 import 'package:school_app/pages/onboard.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,13 +13,32 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
     super.initState();
 
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-          context, CupertinoPageRoute(builder: ((context) => OnBoard())));
+      Navigator.pushReplacement(context, CupertinoPageRoute(builder: (ctx) {
+        return StreamBuilder(
+            stream: _auth.authStateChanges(),
+            builder: ((context, snapshot) {
+              if (snapshot.connectionState ==
+                  ConnectionState.active) if (snapshot.hasData) {
+                return HomePage();
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('%*${snapshot.error}'),
+                );
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return OnBoard();
+            }));
+      }));
     });
   }
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/auth/services/student_service.dart';
 import 'package:school_app/features/auth/views/login.dart';
 import 'package:school_app/widgets/widgets.dart';
 
@@ -13,8 +14,32 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  bool isLoading = false;
   TextEditingController _emailController = TextEditingController();
-  GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _forgotPassFormKey = GlobalKey<FormState>();
+
+  void changePassword() async {
+    if (_forgotPassFormKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      String resp = await StudentService().resetPassword(_emailController.text);
+
+      if (resp == 'success') {
+        await Fluttertoast.showToast(
+            msg: 'The reset link was send successfully !',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: messageColor,
+            fontSize: 16);
+        Navigator.pop(context);
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +66,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 child: Column(
                   children: [
                     Form(
-                        key: _loginFormKey,
+                        key: _forgotPassFormKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -110,22 +135,23 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 padding: EdgeInsets.only(left: 5),
                                 child: MainButton(
                                   onPressed: () {
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LoginPage()),
-                                        (Route<dynamic> route) => false);
+                                    isLoading ? null : changePassword();
                                   },
                                   leftPadding: wd * 0.33,
                                   rightPadding: wd * 0.33,
-                                  child: Text(
-                                    'Send',
-                                    style: GoogleFonts.openSans(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
+                                  child: isLoading
+                                      ? CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  Colors.white))
+                                      : Text(
+                                          'Send',
+                                          style: GoogleFonts.openSans(
+                                            color: Colors.white,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
                                 )),
                           ],
                         )),

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/auth/services/student_service.dart';
 import 'package:school_app/features/auth/views/login.dart';
+import 'package:school_app/features/auth/views/success.dart';
 // import 'package:school_app/features/auth/login.dart';
 import 'package:school_app/widgets/widgets.dart';
 
@@ -18,8 +20,7 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _confirmpassController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
   bool _isChecked = false;
   bool _obscurePassword = true;
   bool _isButtonPressed = false;
@@ -59,16 +60,31 @@ class _RegistrationPageState extends State<RegistrationPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmpassController.dispose();
-    _usernameController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
-  void registerUser() async {
+  @override
+  void registerStudent() async {
     if (_registerFormKey.currentState!.validate()) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (Route<dynamic> route) => false);
+      setState(() {
+        isLoading = true;
+      });
+      String resp = await StudentService().registerStudent(
+          name: _nameController.text,
+          gender: _selectedGender!,
+          nationality: _selectedNationality.name,
+          promotion: _selectedPromotion!,
+          email: _emailController.text,
+          password: _passwordController.text);
+      if (resp == 'success') {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const Success()),
+            (Route<dynamic> route) => false);
+      }
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -149,7 +165,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                         color: Colors.grey.shade300,
                                       )),
                                   child: TextFormField(
-                                    controller: _usernameController,
+                                    controller: _nameController,
                                     keyboardType: TextInputType.name,
                                     decoration: InputDecoration(
                                         prefixIcon: Icon(
@@ -584,7 +600,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       setState(() {
                                         _isButtonPressed = true;
                                       });
-                                      registerUser();
+                                      isLoading ? null : registerStudent();
                                     },
                                     leftPadding: wd * 0.31,
                                     rightPadding: wd * 0.31,
