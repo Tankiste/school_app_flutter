@@ -163,6 +163,29 @@ class StudentService {
     return resp;
   }
 
+  Future<StudentData?> getStudent(String senderId) async {
+    try {
+      DocumentSnapshot snapshot =
+          await _firestore.collection('users').doc(senderId).get();
+
+      if (snapshot.exists) {
+        return StudentData(
+            uid: senderId,
+            name: snapshot['Full Name'],
+            email: snapshot['Email'],
+            logo: snapshot['Logolink'],
+            gender: snapshot['Gender'],
+            nationality: snapshot['Nationality'],
+            promotion: snapshot['Promotion']);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error when fetching user: $e');
+      return null;
+    }
+  }
+
   Future<void> logout() async {
     await _auth.signOut();
   }

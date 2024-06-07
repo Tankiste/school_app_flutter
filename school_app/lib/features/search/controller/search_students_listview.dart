@@ -18,8 +18,8 @@ class _SearchStudentListViewState extends State<SearchStudentListView> {
       children: [
         InkWell(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ResultStudentSearch()));
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => ResultStudentSearch()));
           },
           child: Row(
             children: [

@@ -202,7 +202,9 @@ class _SearchPageState extends State<SearchPage>
                                           context,
                                           MaterialPageRoute(
                                               builder: ((context) =>
-                                                  ResultPostSearch())));
+                                                  ResultPostSearch(
+                                                    document: data,
+                                                  ))));
                                     },
                                     child: Column(
                                       children: [
@@ -293,7 +295,8 @@ class _SearchPageState extends State<SearchPage>
                                           context,
                                           MaterialPageRoute(
                                               builder: ((context) =>
-                                                  ResultStudentSearch())));
+                                                  ResultStudentSearch(
+                                                      document: data))));
                                     },
                                     child: Column(
                                       children: [

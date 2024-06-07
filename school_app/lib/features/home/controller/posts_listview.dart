@@ -280,6 +280,8 @@ class _PostListViewState extends State<PostListView> {
                       children: [
                         LikeTotalPost(
                             postId: post.id,
+                            color: Colors.white,
+                            favColor: Colors.white,
                             totalLikes: _postLikeCounts[post.id] ?? 0),
                         // LikePost(postId: post.id),
                         // Padding(

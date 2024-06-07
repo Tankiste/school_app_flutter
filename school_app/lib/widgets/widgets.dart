@@ -200,8 +200,15 @@ class _LikePostState extends State<LikePost> {
 class LikeTotalPost extends StatefulWidget {
   final String postId;
   int totalLikes;
+  Color color;
+  Color favColor;
 
-  LikeTotalPost({Key? key, required this.postId, required this.totalLikes})
+  LikeTotalPost(
+      {Key? key,
+      required this.postId,
+      required this.totalLikes,
+      required this.color,
+      required this.favColor})
       : super(key: key);
 
   @override
@@ -253,7 +260,7 @@ class _LikeTotalPostState extends State<LikeTotalPost> {
           children: [
             Icon(
               isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-              color: isLiked ? Colors.red : Colors.white,
+              color: isLiked ? Colors.red : widget.favColor,
               size: 28,
             ),
             Padding(
@@ -262,7 +269,7 @@ class _LikeTotalPostState extends State<LikeTotalPost> {
                 widget.totalLikes.toString(),
                 style: GoogleFonts.openSans(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: widget.color,
                     fontWeight: FontWeight.bold),
               ),
             ),

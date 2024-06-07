@@ -195,10 +195,10 @@ class _StudentPostListViewState extends State<StudentPostListView> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => ResultPostSearch())));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: ((context) => ResultPostSearch())));
                   },
                   child: Container(
                     height: ht * 0.28,

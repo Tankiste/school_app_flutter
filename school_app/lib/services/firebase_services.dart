@@ -11,6 +11,7 @@ class FirebaseServices {
   CollectionReference posts = FirebaseFirestore.instance.collection('posts');
   CollectionReference comments =
       FirebaseFirestore.instance.collection('comments');
+  CollectionReference chats = FirebaseFirestore.instance.collection('chats');
 
   String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 

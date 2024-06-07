@@ -31,10 +31,10 @@ class _StudentPostsState extends State<StudentPosts> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => ResultPostSearch())));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: ((context) => ResultPostSearch())));
                   },
                   child: Container(
                     height: ht * 0.28,

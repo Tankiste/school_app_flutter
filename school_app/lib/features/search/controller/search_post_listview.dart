@@ -69,7 +69,8 @@ class _SearchPostListViewState extends State<SearchPostListView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: ((context) => ResultPostSearch())));
+                            builder: ((context) =>
+                                ResultPostSearch(document: document))));
                   },
                   child: Container(
                     height: ht * 0.28,

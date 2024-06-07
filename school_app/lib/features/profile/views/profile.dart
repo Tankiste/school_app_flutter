@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/auth/model/student.dart';
 import 'package:school_app/features/auth/services/student_service.dart';
 import 'package:school_app/features/auth/views/login.dart';
 import 'package:school_app/features/likes/views/favorite.dart';
@@ -23,6 +25,17 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final StudentService _studService = StudentService();
 
+  @override
+  void initState() {
+    updateData();
+    super.initState();
+  }
+
+  updateData() async {
+    ApplicationState appState = Provider.of(context, listen: false);
+    await appState.refreshUser();
+  }
+
   signoutUser() async {
     ApplicationState appState = Provider.of(context, listen: false);
     await appState.logoutUser(context);
@@ -35,6 +48,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    StudentData? studentData =
+        Provider.of<ApplicationState>(context).getStudent;
+    String? name = studentData?.name;
+    String? email = studentData?.email;
+    String? logo = studentData?.logo;
     var ht = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -89,17 +107,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ]),
                         child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/supplier.png',
-                            fit: BoxFit.cover,
-                          ),
+                          child: logo != null
+                              ? logo == ""
+                                  ? Image.asset(
+                                      "assets/avatar.png",
+                                      fit: BoxFit.cover,
+                                    )
+                                  : CachedNetworkImage(
+                                      imageUrl: logo,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    )
+                              : Image.asset(
+                                  'assets/images/avatar1.png',
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        'John Doe',
+                        name!,
                         style: GoogleFonts.openSans(
                             fontSize: 25, fontWeight: FontWeight.w800),
                       ),
@@ -107,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       //   height: 5,
                       // ),
                       Text(
-                        'johndoe@gmail.com',
+                        email!,
                         style: GoogleFonts.openSans(
                             color: Colors.grey.shade500,
                             fontSize: 12,

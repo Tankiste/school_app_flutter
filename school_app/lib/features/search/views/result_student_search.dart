@@ -1,14 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/chats/views/chat_screen.dart';
 import 'package:school_app/features/search/controller/about_student.dart';
 import 'package:school_app/features/search/controller/student_comments.dart';
 import 'package:school_app/features/posts/views/student_posts.dart';
 import 'package:school_app/widgets/widgets.dart';
 
 class ResultStudentSearch extends StatefulWidget {
-  const ResultStudentSearch({super.key});
+  final DocumentSnapshot document;
+  const ResultStudentSearch({super.key, required this.document});
 
   @override
   State<ResultStudentSearch> createState() => _ResultStudentSearchState();
@@ -95,6 +99,8 @@ class _ResultStudentSearchState extends State<ResultStudentSearch>
   Widget build(BuildContext context) {
     var ht = MediaQuery.of(context).size.height;
     var wd = MediaQuery.of(context).size.width;
+    String logo = widget.document['Logolink'];
+    String name = widget.document['Full Name'];
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -130,14 +136,31 @@ class _ResultStudentSearchState extends State<ResultStudentSearch>
                               shape: BoxShape.circle,
                             ),
                             child: ClipOval(
-                              child: Image.asset(
-                                "assets/images/supplier.png",
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                                child: logo != null
+                                    ? logo == ""
+                                        ? Image.asset(
+                                            'assets/images/avatar1.png',
+                                            fit: BoxFit.cover,
+                                          )
+                                        : CachedNetworkImage(
+                                            imageUrl: logo,
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                          )
+                                    : Image.asset(
+                                        "assets/images/avatar1.png",
+                                        fit: BoxFit.cover,
+                                      )),
                           ),
                           const SizedBox(height: 10),
-                          Text('Binho d.',
+                          Text(name,
                               style: GoogleFonts.openSans(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -204,7 +227,13 @@ class _ResultStudentSearchState extends State<ResultStudentSearch>
                 bottom: 15,
                 right: 30,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) =>
+                                ChatScreen(document: widget.document))));
+                  },
                   style: ElevatedButton.styleFrom(
                       elevation: 5,
                       backgroundColor: onboardColor,
