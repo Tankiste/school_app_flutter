@@ -25,12 +25,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   signoutUser() async {
     ApplicationState appState = Provider.of(context, listen: false);
-    appState.currentIndex = 0;
     await appState.logoutUser(context);
     await _studService.logout();
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const LoginPage()),
         (Route<dynamic> route) => false);
+    appState.currentIndex = 0;
   }
 
   @override

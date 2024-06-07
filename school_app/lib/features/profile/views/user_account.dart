@@ -194,7 +194,8 @@ class _UserAccountState extends State<UserAccount>
 
   @override
   Widget build(BuildContext context) {
-    StudentData? studentData = Provider.of<ApplicationState>(context).getUser;
+    StudentData? studentData =
+        Provider.of<ApplicationState>(context).getStudent;
     String? logoUrl = studentData?.logo;
 
     var ht = MediaQuery.of(context).size.height;
@@ -263,7 +264,7 @@ class _UserAccountState extends State<UserAccount>
                                               ? logoUrl != null
                                                   ? logoUrl == ""
                                                       ? Image.asset(
-                                                          'assets/images/avatar.png',
+                                                          'assets/images/avatar1.png',
                                                           fit: BoxFit.cover,
                                                         )
                                                       : CachedNetworkImage(
@@ -280,7 +281,7 @@ class _UserAccountState extends State<UserAccount>
                                                               Icon(Icons.error),
                                                         )
                                                   : Image.asset(
-                                                      "assets/images/avatar.png",
+                                                      "assets/images/avatar1.png",
                                                       fit: BoxFit.cover,
                                                     )
                                               : Image.file(

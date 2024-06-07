@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:school_app/constants/constants.dart';
 import 'package:school_app/features/search/controller/search_post_listview.dart';
 import 'package:school_app/features/search/controller/search_students_listview.dart';
+import 'package:school_app/features/search/views/result_post_search.dart';
+import 'package:school_app/features/search/views/result_student_search.dart';
+import 'package:school_app/services/firebase_services.dart';
 import 'package:school_app/widgets/widgets.dart';
 
 class SearchPage extends StatefulWidget {
@@ -14,9 +18,12 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage>
     with SingleTickerProviderStateMixin {
+  FirebaseServices _services = FirebaseServices();
   late AnimationController _controller;
   late Animation<Offset> _animation;
   String selectedOption = 'Posts';
+  String _post = "";
+  bool _showInitialView = true;
 
   @override
   void initState() {
@@ -69,13 +76,13 @@ class _SearchPageState extends State<SearchPage>
     );
   }
 
-  Widget buildContent() {
-    if (selectedOption == 'Posts') {
-      return SearchPostListView();
-    } else {
-      return SearchStudentListView();
-    }
-  }
+  // Widget buildContent() {
+  //   if (selectedOption == 'Posts') {
+  //     return SearchPostListView();
+  //   } else {
+  //     return SearchStudentListView();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +120,12 @@ class _SearchPageState extends State<SearchPage>
                           fontWeight: FontWeight.w600,
                           color: Colors.grey.shade500,
                         )),
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() {
+                        _post = value;
+                        _showInitialView = false;
+                      });
+                    },
                   ),
                 ),
               ),
@@ -152,7 +164,172 @@ class _SearchPageState extends State<SearchPage>
                 ],
               ),
               buildDivider(),
-              buildContent(),
+              // buildContent(),
+              (selectedOption == 'Posts')
+                  ? StreamBuilder<QuerySnapshot>(
+                      stream: _services.posts.snapshots(),
+                      builder: (context, snapshot) {
+                        if (_post.isEmpty) {
+                          return SearchPostListView(
+                            showText: true,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text(
+                              'Something went wrong : ${snapshot.error}');
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container(
+                            height: 50,
+                            width: 50,
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              var data = snapshot.data!.docs[index];
+                              if (data['description']
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(_post)) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 5),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  ResultPostSearch())));
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.search_outlined,
+                                                    size: 20,
+                                                    color: Colors.grey.shade400,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  SizedBox(
+                                                      width: wd * 0.7,
+                                                      child: Text(
+                                                        data['description'],
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.call_made_outlined,
+                                              size: 20,
+                                              color: Colors.grey.shade400,
+                                            )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Divider(
+                                          color: Colors.grey.shade300,
+                                          indent: 10,
+                                          endIndent: 10,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            },
+                          );
+                        }
+                      },
+                    )
+                  : StreamBuilder<QuerySnapshot>(
+                      stream: _services.users.snapshots(),
+                      builder: (context, snapshot) {
+                        if (_post.isEmpty) {
+                          return SearchStudentListView();
+                        } else if (snapshot.hasError) {
+                          return Text(
+                              'Something went wrong : ${snapshot.error}');
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container(
+                            height: 50,
+                            width: 50,
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              var data = snapshot.data!.docs[index];
+                              if (data['Full Name']
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(_post)) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 5,
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  ResultStudentSearch())));
+                                    },
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text(data['Full Name'],
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18)),
+                                          leading: CircleAvatar(
+                                            backgroundImage:
+                                                NetworkImage(data['Logolink']),
+                                          ),
+                                        ),
+                                        // const SizedBox(
+                                        //   height: 5,
+                                        // ),
+                                        Divider(
+                                          color: Colors.grey.shade300,
+                                          indent: 10,
+                                          endIndent: 10,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            },
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    )
             ],
           ),
         ),

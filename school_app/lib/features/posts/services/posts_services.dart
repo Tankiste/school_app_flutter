@@ -2,19 +2,14 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:school_app/features/posts/model/posts.dart';
 import 'package:school_app/services/firebase_services.dart';
 import 'package:school_app/state/app_state.dart';
 
 class PostService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseServices _services = FirebaseServices();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   ApplicationState appState = ApplicationState();
-
-  String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> createPost({
     required String description,
@@ -57,5 +52,41 @@ class PostService {
       resp = e.toString();
     }
     return resp;
+  }
+
+  Future<void> togglePostLike(String postId) async {
+    try {
+      User currentUser = _auth.currentUser!;
+      DocumentSnapshot postSnapshot = await _services.posts.doc(postId).get();
+
+      if (postSnapshot.exists) {
+        List<String> likes = List<String>.from(postSnapshot['likes']);
+
+        if (likes.contains(currentUser.uid)) {
+          likes.remove(currentUser.uid);
+        } else {
+          likes.add(currentUser.uid);
+        }
+
+        await _services.posts.doc(postId).update({'likes': likes});
+
+        // await appState.checkPostLikeStatus(postId);
+        // await appState.totalPostLikesCount(postId);
+      }
+    } catch (err) {
+      print('Error toggling like/dislike: $err');
+    }
+  }
+
+  Future<List<DocumentSnapshot>> getLikedPosts() async {
+    User currentUser = _auth.currentUser!;
+    QuerySnapshot querySnapshot = await _services.posts.get();
+
+    List<DocumentSnapshot> likedPosts = querySnapshot.docs.where((doc) {
+      List<dynamic> likes = doc['likes'];
+      return likes.contains(currentUser.uid);
+    }).toList();
+
+    return likedPosts;
   }
 }

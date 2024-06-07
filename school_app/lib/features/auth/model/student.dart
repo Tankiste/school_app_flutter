@@ -45,6 +45,9 @@ class StudentData {
     return StudentData(
         uid: snapshot['uid'],
         name: snapshot['Full Name'],
+        logo: snapshot['Logolink'],
+        bio: snapshot['Bio'],
+        date: snapshot['Registration Date'],
         gender: snapshot['Gender'],
         nationality: snapshot['Nationality'],
         promotion: snapshot['Promotion'],

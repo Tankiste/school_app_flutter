@@ -83,6 +83,8 @@ class StudentService {
     User currentUser = _auth.currentUser!;
     DocumentSnapshot snap =
         await _firestore.collection('users').doc(currentUser.uid).get();
+    // print('stud id: ${currentUser.uid}');
+    // print('imagelink ${snap['Logolink']}');
     return StudentData.fromSnap(snap);
   }
 

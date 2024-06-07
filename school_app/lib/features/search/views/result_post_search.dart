@@ -195,10 +195,10 @@ class _ResultPostSearchState extends State<ResultPostSearch> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => CommentScreen()));
+                      // Navigator.push(
+                      //     context,
+                      //     CupertinoPageRoute(
+                      //         builder: (context) => CommentScreen()));
                     },
                     child: Text('View all comments',
                         style: GoogleFonts.openSans(

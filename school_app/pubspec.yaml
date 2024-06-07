@@ -47,7 +47,7 @@ dependencies:
   custom_navigation_bar: ^0.8.2
   google_nav_bar: ^5.0.6
   weather: ^3.1.1
-  provider: ^6.1.2
+  provider: ^6.0.5
   flutter_svg: ^2.0.10+1
   grouped_list: ^5.1.2
   permission_handler: ^11.0.1

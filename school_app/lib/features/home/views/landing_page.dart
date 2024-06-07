@@ -106,130 +106,6 @@ class _LandingPageState extends State<LandingPage> {
     }
   }
 
-  Widget buildComment() {
-    var ht = MediaQuery.of(context).size.height;
-    var wd = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            height: 5,
-            width: wd * 0.17,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(9),
-            ),
-          ),
-          SizedBox(
-            height: ht * 0.03,
-          ),
-          Text(
-            'Publish a New Post',
-            style: GoogleFonts.openSans(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: ht * 0.035),
-          InkWell(
-            onTap: () {
-              pickImage();
-            },
-            child: image == null
-                ? Container(
-                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                    height: ht * 0.2,
-                    width: wd * 0.85,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: onboardColor),
-                    child: Column(
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.image,
-                          color: buttonColor,
-                          size: 50,
-                        ),
-                        SizedBox(
-                          height: ht * 0.02,
-                        ),
-                        Text(
-                          'Choose a Photo or a video',
-                          style: GoogleFonts.openSans(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: buttonColor),
-                        )
-                      ],
-                    ),
-                  )
-                : Image.file(
-                    image!,
-                    width: wd * 0.85,
-                    height: ht * 0.2,
-                    fit: BoxFit.cover,
-                  ),
-          ),
-          SizedBox(
-            height: ht * 0.035,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25),
-            child: Container(
-              height: ht * 0.18,
-              decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                  )),
-              child: TextFormField(
-                controller: _postController,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                    hintText: "Enter your text here...",
-                    contentPadding:
-                        EdgeInsets.only(left: 10, right: 5, bottom: 5),
-                    hintStyle: GoogleFonts.openSans(
-                        color: Colors.grey.shade500,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 15),
-                    border: InputBorder.none),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: ht * 0.03,
-          ),
-          MainButton(
-              onPressed: () {
-                isLoading ? null : createPost();
-              },
-              leftPadding: wd * 0.35,
-              rightPadding: wd * 0.35,
-              child: isLoading
-                  ? CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
-                  : Text(
-                      'Post',
-                      style: GoogleFonts.openSans(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )),
-          SizedBox(
-            height: ht * 0.04,
-          )
-        ],
-      ),
-    );
-  }
-
   void createPost() async {
     if (image != null && _postController.text.isNotEmpty) {
       setState(() {
@@ -262,8 +138,134 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     var ht = MediaQuery.of(context).size.height;
     var wd = MediaQuery.of(context).size.width;
-    StudentData? studentData = Provider.of<ApplicationState>(context).getUser;
+    StudentData? studentData =
+        Provider.of<ApplicationState>(context).getStudent;
     String? name = studentData?.name;
+
+    Widget buildComment() {
+      var ht = MediaQuery.of(context).size.height;
+      var wd = MediaQuery.of(context).size.width;
+      return Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: 5,
+              width: wd * 0.17,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(9),
+              ),
+            ),
+            SizedBox(
+              height: ht * 0.03,
+            ),
+            Text(
+              'Publish a New Post',
+              style: GoogleFonts.openSans(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(height: ht * 0.035),
+            InkWell(
+              onTap: () {
+                pickImage();
+              },
+              child: image == null
+                  ? Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                      height: ht * 0.2,
+                      width: wd * 0.85,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: onboardColor),
+                      child: Column(
+                        children: [
+                          Icon(
+                            FontAwesomeIcons.image,
+                            color: buttonColor,
+                            size: 50,
+                          ),
+                          SizedBox(
+                            height: ht * 0.02,
+                          ),
+                          Text(
+                            'Choose a Photo or a video',
+                            style: GoogleFonts.openSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: buttonColor),
+                          )
+                        ],
+                      ),
+                    )
+                  : Image.file(
+                      image!,
+                      width: wd * 0.85,
+                      height: ht * 0.2,
+                      fit: BoxFit.cover,
+                    ),
+            ),
+            SizedBox(
+              height: ht * 0.035,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25, right: 25),
+              child: Container(
+                height: ht * 0.18,
+                decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                    )),
+                child: TextFormField(
+                  controller: _postController,
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                  decoration: InputDecoration(
+                      hintText: "Enter your text here...",
+                      contentPadding:
+                          EdgeInsets.only(left: 10, right: 5, bottom: 5),
+                      hintStyle: GoogleFonts.openSans(
+                          color: Colors.grey.shade500,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 15),
+                      border: InputBorder.none),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: ht * 0.03,
+            ),
+            MainButton(
+                onPressed: () {
+                  isLoading ? null : createPost();
+                },
+                leftPadding: wd * 0.35,
+                rightPadding: wd * 0.35,
+                child: isLoading
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
+                    : Text(
+                        'Post',
+                        style: GoogleFonts.openSans(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )),
+            SizedBox(
+              height: ht * 0.04,
+            )
+          ],
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -316,10 +318,15 @@ class _LandingPageState extends State<LandingPage> {
                       SizedBox(
                         height: ht * 0.035,
                       ),
-                      Text(
-                        'Hello, $name !',
-                        style: GoogleFonts.lexend(
-                            fontSize: 24, fontWeight: FontWeight.w600),
+                      SizedBox(
+                        height: ht * 0.04,
+                        width: wd * 0.7,
+                        child: Text(
+                          'Hello, $name !',
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.lexend(
+                              fontSize: 24, fontWeight: FontWeight.w600),
+                        ),
                       ),
                       SizedBox(
                         height: ht * 0.027,
@@ -431,7 +438,7 @@ class _LandingPageState extends State<LandingPage> {
                         ],
                       ),
                       SizedBox(
-                        height: ht * 0.035,
+                        height: ht * 0.04,
                       ),
                       Text(
                         'Weather',
@@ -562,28 +569,17 @@ class _LandingPageState extends State<LandingPage> {
                         ),
                       ),
                       SizedBox(
-                        height: ht * 0.035,
+                        height: ht * 0.04,
                       ),
                       Text(
                         'Feed',
                         style: GoogleFonts.lexend(
                             fontSize: 20, fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(
-                        height: ht * 0.02,
-                      ),
-                      Column(
-                        children: [
-                          ListView.builder(
-                            itemCount: 2,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return PostListView();
-                            },
-                          ),
-                        ],
-                      ),
+                      // SizedBox(
+                      //   height: ht * 0.02,
+                      // ),
+                      PostListView(),
                     ],
                   ),
                 ),

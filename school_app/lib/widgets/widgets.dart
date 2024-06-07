@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:school_app/constants/constants.dart';
+import 'package:school_app/features/comments/services/comment_services.dart';
+import 'package:school_app/features/posts/services/posts_services.dart';
 import 'package:school_app/features/search/views/search_page.dart';
 import 'package:school_app/pages/home_page.dart';
 import 'package:school_app/state/app_state.dart';
@@ -142,6 +144,264 @@ class Message {
 
   const Message(
       {required this.text, required this.date, required this.isSentByMe});
+}
+
+class LikePost extends StatefulWidget {
+  final String postId;
+
+  const LikePost({Key? key, required this.postId}) : super(key: key);
+
+  @override
+  _LikePostState createState() => _LikePostState();
+}
+
+class _LikePostState extends State<LikePost> {
+  ApplicationState appState = ApplicationState();
+  PostService _postService = PostService();
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initLikeStatus();
+  }
+
+  Future<void> _initLikeStatus() async {
+    bool liked = await appState.checkPostLikeStatus(widget.postId);
+    setState(() {
+      isLiked = liked;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ApplicationState>(builder: (context, appState, _) {
+      // int totalLikes = appState.totalLike;
+
+      return GestureDetector(
+        onTap: () async {
+          setState(() {
+            isLiked = !isLiked;
+          });
+          await _postService.togglePostLike(widget.postId);
+          await appState.checkPostLikeStatus(widget.postId);
+          await appState.totalPostLikesCount(widget.postId);
+        },
+        child: Icon(
+          isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+          color: isLiked ? Colors.red : Colors.white,
+          size: 28,
+        ),
+      );
+    });
+  }
+}
+
+class LikeTotalPost extends StatefulWidget {
+  final String postId;
+  int totalLikes;
+
+  LikeTotalPost({Key? key, required this.postId, required this.totalLikes})
+      : super(key: key);
+
+  @override
+  _LikeTotalPostState createState() => _LikeTotalPostState();
+}
+
+class _LikeTotalPostState extends State<LikeTotalPost> {
+  ApplicationState appState = ApplicationState();
+  PostService _postService = PostService();
+  bool isLiked = false;
+  // int totalLikes = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initLikeStatus();
+  }
+
+  Future<void> _initLikeStatus() async {
+    bool liked = await appState.checkPostLikeStatus(widget.postId);
+    int likesCount = await appState.totalPostLikesCount(widget.postId);
+    setState(() {
+      isLiked = liked;
+      widget.totalLikes = likesCount;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ApplicationState>(builder: (context, appState, _) {
+      // int totalLikes = appState.totalLike;
+
+      return GestureDetector(
+        onTap: () async {
+          setState(() {
+            isLiked = !isLiked;
+          });
+          if (isLiked) {
+            widget.totalLikes++;
+          } else {
+            widget.totalLikes--;
+          }
+
+          await _postService.togglePostLike(widget.postId);
+          await appState.checkPostLikeStatus(widget.postId);
+          await appState.totalPostLikesCount(widget.postId);
+        },
+        child: Row(
+          children: [
+            Icon(
+              isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+              color: isLiked ? Colors.red : Colors.white,
+              size: 28,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                widget.totalLikes.toString(),
+                style: GoogleFonts.openSans(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+}
+
+class LikeComment extends StatefulWidget {
+  final String commentId;
+
+  const LikeComment({Key? key, required this.commentId}) : super(key: key);
+
+  @override
+  _LikeCommentState createState() => _LikeCommentState();
+}
+
+class _LikeCommentState extends State<LikeComment> {
+  ApplicationState appState = ApplicationState();
+  CommentService _commentService = CommentService();
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initLikeStatus();
+  }
+
+  Future<void> _initLikeStatus() async {
+    bool liked = await appState.checkCommentLikeStatus(widget.commentId);
+    setState(() {
+      isLiked = liked;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ApplicationState>(builder: (context, appState, _) {
+      // int totalLikes = appState.totalLike;
+
+      return GestureDetector(
+        onTap: () async {
+          setState(() {
+            isLiked = !isLiked;
+          });
+          await _commentService.toggleCommentLike(widget.commentId);
+          await appState.checkCommentLikeStatus(widget.commentId);
+          await appState.totalCommentLikesCount(widget.commentId);
+        },
+        child: Icon(
+          isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+          color: isLiked ? Colors.red : Colors.grey.shade300,
+          size: 28,
+        ),
+      );
+    });
+  }
+}
+
+class LikeTotalComment extends StatefulWidget {
+  final String commentId;
+  int totalLikes;
+
+  LikeTotalComment(
+      {Key? key, required this.commentId, required this.totalLikes})
+      : super(key: key);
+
+  @override
+  _LikeTotalCommentState createState() => _LikeTotalCommentState();
+}
+
+class _LikeTotalCommentState extends State<LikeTotalComment> {
+  ApplicationState appState = ApplicationState();
+  CommentService _commentService = CommentService();
+  bool isLiked = false;
+  // int totalLikes = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initLikeStatus();
+  }
+
+  Future<void> _initLikeStatus() async {
+    bool liked = await appState.checkCommentLikeStatus(widget.commentId);
+    int likesCount = await appState.totalCommentLikesCount(widget.commentId);
+    setState(() {
+      isLiked = liked;
+      widget.totalLikes = likesCount;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ApplicationState>(builder: (context, appState, _) {
+      // int totalLikes = appState.totalLike;
+
+      return GestureDetector(
+        onTap: () async {
+          setState(() {
+            isLiked = !isLiked;
+          });
+          if (isLiked) {
+            widget.totalLikes++;
+          } else {
+            widget.totalLikes--;
+          }
+
+          await _commentService.toggleCommentLike(widget.commentId);
+          await appState.checkCommentLikeStatus(widget.commentId);
+          await appState.totalCommentLikesCount(widget.commentId);
+        },
+        child: Row(
+          children: [
+            Icon(
+              isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+              color: isLiked ? Colors.red : Colors.grey.shade300,
+              size: 28,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                widget.totalLikes.toString(),
+                style: GoogleFonts.openSans(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
 }
 
 class FloatingBar extends StatefulWidget {

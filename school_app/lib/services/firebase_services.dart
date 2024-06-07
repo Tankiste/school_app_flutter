@@ -9,6 +9,8 @@ class FirebaseServices {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference posts = FirebaseFirestore.instance.collection('posts');
+  CollectionReference comments =
+      FirebaseFirestore.instance.collection('comments');
 
   String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
