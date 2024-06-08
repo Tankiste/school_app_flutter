@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "872470047460",
+    "firebase_url": "https://school-app-59c0d-default-rtdb.firebaseio.com",
+    "project_id": "school-app-59c0d",
+    "storage_bucket": "school-app-59c0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872470047460:android:9c69d471afa467b3855af1",
+        "android_client_info": {
+          "package_name": "com.example.school_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAOJ7hML3w1sIPWzZJDutgFY1vtKznAqk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
